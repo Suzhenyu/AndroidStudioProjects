@@ -7,10 +7,13 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "MainActivity";
 
     private MyService.DownloadBinder downloadBinder;
 
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bindService.setOnClickListener(this);
         Button unbingService = findViewById(R.id.unbind_service);
         unbingService.setOnClickListener(this);
+        Button startIntentService = findViewById(R.id.start_intent_service);
+        startIntentService.setOnClickListener(this);
     }
 
     @Override
@@ -60,6 +65,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.unbind_service:
                 unbindService(connection);  //解绑服务
+                break;
+            case R.id.start_intent_service:
+                Log.d(TAG, "Thread id is " + Thread.currentThread().getId());
+                Intent intentService = new Intent(this, MyIntentService.class);
+                startService(intentService);
                 break;
             default:
                 break;
